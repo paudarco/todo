@@ -48,7 +48,7 @@ JWT_TTL=8<br />
 <p></p>
 <li>Запустите main.go:</li>
 <p></p>
-<code>go run cmd/main.go</code>
+<code>go run ./cmd/main.go</code>
 <p></p>
 <li>Интерфейс для взаимодействия с API будет доступен на <code>localhost:7540</code></li>
 </ol>
@@ -82,7 +82,12 @@ var Token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOls4OSwxNDgsNzEsMjYsMT
 </code>
 <p>Токен валиден при том же пароле и секрете, что объявлен в TODO_PASSWORD и JWT_SECRET в примере .env файла</p>
 <p></p>
-Для тестирования выполнить:
+Для тестирования необходимо запустить сервер<br />
+Тесты работают с базой данных, которая создается при первом запуске сервера.
+<p></p>
+<code>go run ./cmd/main.go</code>
+<p></p>
+И выполнить команду:
 <p></p>
 <code>go test ./tests</code>
 <p></p>

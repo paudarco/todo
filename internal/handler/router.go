@@ -27,13 +27,16 @@ func (h *Handler) InitRouters() *gin.Engine {
 	r.Static("/css", "./web/css")
 	r.Static("/js", "./web/js")
 	r.StaticFile("/favicon.ico", "./web/favicon.ico")
-	r.StaticFile("/", "./web/index.html")
-	r.StaticFile("/login", "./web/login.html")
 
 	// Сайт работает с вышеперечисленными путями,
 	// но тесты почему-то принимают html только в виде таких двух строк.
 	r.StaticFile("/index.html", "./web/index.html")
 	r.StaticFile("/login.html", "./web/login.html")
+
+	// Обработчик для /login с редиректом на index.html, если пользователь уже авторизован
+	r.GET("/login", h.RedirectIfAuthenticated, func(c *gin.Context) {
+		c.File("./web/login.html")
+	})
 
 	// Публичные эндпоинты, не требующие аутентификации.
 	public := r.Group("/api")
@@ -43,21 +46,28 @@ func (h *Handler) InitRouters() *gin.Engine {
 	}
 
 	// Защищенные эндпоинты, требующие аутентификации.
-	protected := r.Group("/api", h.AuthMiddleware)
+	protected := r.Group("/", h.AuthMiddleware)
 	{
-		tasks := protected.Group("/tasks")
-		{
-			tasks.GET("/", h.GetAllTasks)
-			tasks.GET("/search", h.SearchTasks)
-		}
+		protected.GET("/", func(c *gin.Context) {
+			c.File("./web/index.html")
+		})
 
-		task := protected.Group("/task")
+		api := protected.Group("/api")
 		{
-			task.GET("/", h.GetTaskById)
-			task.POST("/", h.CreateTask)
-			task.PUT("/", h.UpdateTask)
-			task.POST("/done", h.DoneTask)
-			task.DELETE("/", h.DeleteTask)
+			tasks := api.Group("/tasks")
+			{
+				tasks.GET("/", h.GetAllTasks)
+				tasks.GET("/search", h.SearchTasks)
+			}
+
+			task := api.Group("/task")
+			{
+				task.GET("/", h.GetTaskById)
+				task.POST("/", h.CreateTask)
+				task.PUT("/", h.UpdateTask)
+				task.POST("/done", h.DoneTask)
+				task.DELETE("/", h.DeleteTask)
+			}
 		}
 	}
 

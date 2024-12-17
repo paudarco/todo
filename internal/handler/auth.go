@@ -27,4 +27,6 @@ func (h *Handler) SignIn(c *gin.Context) {
 		"token": response.Token,
 	})
 
+	c.Redirect(http.StatusSeeOther, "/")
+
 }
