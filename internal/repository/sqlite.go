@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"fmt"
 	"os"
-	"path/filepath"
 
 	"github.com/paudarco/todo/internal/config"
 	_ "modernc.org/sqlite"
@@ -41,28 +40,11 @@ func NewSQLiteDB(cfg config.DB) (*sql.DB, error) {
 
 // CreateDBFile создает или возвращает существующий файл базы данных.
 func CreateDBFile(cfg config.DB) (string, error) {
-	// dbPat хранит в себе путь для хранения базы данных
-	var dbPath string
-	var err error
-
-	// Если в .env файле не указан путь до файла бд,
-	// работаем с бд относительно рабочей директории,
-	// будь то путь до исполняемого файла или исходного кода.
-	if cfg.Path == "" {
-		dbPath, err = os.Getwd()
-		if err != nil {
-			return "", err
-		}
-	} else {
-		dbPath = cfg.Path
-	}
-
-	// Создаем полный путь до файла бд.
-	dbFile := filepath.Join(filepath.Dir(dbPath+"\\"), fmt.Sprintf("/%s.db", cfg.Name))
+	dbFile := cfg.Path
 
 	// Проверяем файл бд на существование.
 	// Если его не существует - создаем.
-	_, err = os.Stat(dbFile)
+	_, err := os.Stat(dbFile)
 	if os.IsNotExist(err) {
 		file, err := os.Create(dbFile)
 		if err != nil {
@@ -73,7 +55,6 @@ func CreateDBFile(cfg config.DB) (string, error) {
 			return "", err
 		}
 	}
-
 	return dbFile, nil
 }
 

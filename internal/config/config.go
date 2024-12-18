@@ -19,7 +19,7 @@ type (
 	}
 
 	User struct {
-		Password string `env:"TODO_PASSWORD" envDefault:"password"`
+		Password string `env:"TODO_PASSWORD" envDefault:""`
 	}
 
 	JWT struct {
