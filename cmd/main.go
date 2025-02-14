@@ -26,6 +26,7 @@ func main() {
 	if err != nil {
 		logrus.Fatalf("Error initializing database: %v", err)
 	}
+	defer db.Close()
 
 	// Создаем слои репозитория, сервисов и обработчика
 	repository := repository.NewRepository(db)
