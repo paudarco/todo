@@ -38,7 +38,7 @@ func main() {
 	// Запускаем сервер
 	go func() {
 		if err = srv.Run(cfg.Server, handler.InitRouters()); err != nil {
-			logrus.Fatalf("Error while running server: %v", err)
+			logrus.Errorf("Error while running server: %v", err)
 		}
 	}()
 
