@@ -1,24 +1,26 @@
 package errors
 
-import "fmt"
+import (
+	"errors"
+)
 
 // Все возможные ошибки при работе с данными.
 var (
-	ErrInvalidDataFormat    = fmt.Errorf("invalid data format")
-	ErrInvalidDate          = fmt.Errorf("invalid date or date format")
-	ErrInvalidRepeatRule    = fmt.Errorf("invalid repeat rule")
-	ErrInvalidMonth         = fmt.Errorf("invalid month")
-	ErrDublicateMonth       = fmt.Errorf("dublicate month")
-	ErrInvalidDay           = fmt.Errorf("invalid day")
-	ErrDublicateDay         = fmt.Errorf("dublicate day")
-	ErrMissingId            = fmt.Errorf("missing identifier")
-	ErrInvalidId            = fmt.Errorf("invalid identifier")
-	ErrTaskNotFound         = fmt.Errorf("task not found")
-	ErrInvalidPassword      = fmt.Errorf("invalid password")
-	ErrInvalidSigningMethod = fmt.Errorf("invalid token signing method")
-	ErrInvalidClaims        = fmt.Errorf("invalid claims")
-	ErrExpiredToken         = fmt.Errorf("expired token")
-	ErrInvalidToken         = fmt.Errorf("invalid token")
+	ErrInvalidDataFormat    = errors.New("invalid data format")
+	ErrInvalidDate          = errors.New("invalid date or date format")
+	ErrInvalidRepeatRule    = errors.New("invalid repeat rule")
+	ErrInvalidMonth         = errors.New("invalid month")
+	ErrDublicateMonth       = errors.New("dublicate month")
+	ErrInvalidDay           = errors.New("invalid day")
+	ErrDublicateDay         = errors.New("dublicate day")
+	ErrMissingId            = errors.New("missing identifier")
+	ErrInvalidId            = errors.New("invalid identifier")
+	ErrTaskNotFound         = errors.New("task not found")
+	ErrInvalidPassword      = errors.New("invalid password")
+	ErrInvalidSigningMethod = errors.New("invalid token signing method")
+	ErrInvalidClaims        = errors.New("invalid claims")
+	ErrExpiredToken         = errors.New("expired token")
+	ErrInvalidToken         = errors.New("invalid token")
 )
 
 // Для быстрого поиска нужной ошибки сохраним их в мапу.
