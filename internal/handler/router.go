@@ -28,9 +28,9 @@ func (h *Handler) InitRouters() *gin.Engine {
 	// Обработчик для публичных статических файлов
 	r.NoRoute(gin.WrapH(http.FileServer(gin.Dir("./web", false))))
 
-	r.GET("/index", func(c *gin.Context) {
-		c.File("./web/index.html")
-	})
+	// r.GET("/index", func(c *gin.Context) {
+	// 	c.File("./web/index.html")
+	// })
 
 	// Обработчик для /login с редиректом на index.html, если пользователь уже авторизован.
 	r.GET("/login", h.RedirectIfAuthenticated, func(c *gin.Context) {
@@ -48,9 +48,9 @@ func (h *Handler) InitRouters() *gin.Engine {
 	protected := r.Group("/", h.AuthMiddleware)
 	{
 		// Для попадания на index.html, необходимо пройти аутентификацию.
-		// protected.GET("/", func(c *gin.Context) {
-		// 	c.File("./web/index.html")
-		// })
+		protected.GET("/", func(c *gin.Context) {
+			c.File("./web/index.html")
+		})
 
 		api := protected.Group("/api")
 		{
